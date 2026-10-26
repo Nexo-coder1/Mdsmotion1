@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Site Admin</title>
+<style>
+  :root { --bg:#f4f4f6; --panel:#fff; --line:#dfe1e6; --text:#1d1f24; --muted:#6b7080; --accent:#ff5a36; --ok:#1e8e3e; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:var(--bg); color:var(--text); font-size:15px; }
+  header { position:sticky; top:0; z-index:10; background:var(--panel); border-bottom:1px solid var(--line); padding:12px 16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  header h1 { font-size:17px; margin:0 auto 0 0; }
+  button, .btn { font:inherit; border:1px solid var(--line); background:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; color:var(--text); }
+  button:hover { border-color:var(--accent); }
+  .primary { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
+  .primary:hover { background:#ff7050; }
+  .mini { padding:2px 8px; font-size:13px; }
+  .danger { color:#c62828; }
+  input[type=file] { display:none; }
+  #status { font-size:13px; color:var(--muted); width:100%; min-height:18px; }
+  main { max-width:900px; margin:20px auto; padding:0 16px 80px; }
+  .notice { background:#fff7e6; border:1px solid #ffd591; padding:10px 14px; border-radius:10px; margin-bottom:16px; font-size:14px; }
+  fieldset { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; margin:0 0 18px; }
+  fieldset > legend { font-weight:700; font-size:16px; padding:0 8px; color:var(--accent); }
+  .group > h3 { font-size:15px; margin:18px 0 8px; }
+  .group > h3 small { color:var(--muted); font-weight:400; }
+  .card { border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:12px; background:#fafbfc; }
+  .bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:13px; color:var(--muted); }
+  .bar div { display:flex; gap:6px; }
+  .add { width:100%; margin-top:6px; border-style:dashed; color:var(--accent); font-weight:600; }
+  .field { margin-bottom:12px; }
+  .field > label { display:block; font-size:13px; font-weight:600; color:var(--muted); margin-bottom:4px; }
+  .field input[type=text], .field textarea { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff; }
+  .field textarea { min-height:72px; resize:vertical; }
+  .field .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .field .hint { font-size:12px; color:var(--muted); margin-top:4px; }
+  .thumb { width:90px; height:60px; object-fit:cover; border-radius:6px; border:1px solid var(--line); background:#eee; }
+  .obj { margin-bottom:12px; }
+  .obj > legend { font-size:14px; color:var(--text); }
+  .modal-note { font-size:13px; color:var(--muted); margin-top:20px; }
+  @media (max-width:600px) { header h1 { width:100%; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Site Admin</h1>
+  <button id="loadBtn">content.json खोलें</button>
+  <button id="resetBtn">सेव्ड वर्शन पुनः लोड करें</button>
+  <button id="dlBtn" class="primary">content.json डाउनलोड करें</button>
+  <input type="file" id="fileIn" accept="application/json,.json">
+  <div id="status"></div>
+</header>
+
+<main>
+  <div class="notice">
+    हर बदलाव अपने-आप ब्राउज़र में सेव होता है। साइट पर लाइव करने के लिए <b>content.json डाउनलोड करें</b> और उसे GitHub रिपॉज़िटरी में <b>index.html के साथ</b> अपलोड करें। बड़ी इमेज या वीडियो को रिपॉज़िटरी के <code>images/</code> या <code>videos/</code> फ़ोल्डर में रखें और यहाँ उसका path लिखें।
+  </div>
+  <div id="editor"></div>
+  <p class="modal-note">वीडियो के लिए path जैसे <code>videos/reel1.mp4</code> या YouTube लिंक डालें। इमेज अपलोड बटन से छोटी इमेज सीधे फ़ाइल में जुड़ जाती है।</p>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var KEY = "mds-admin-draft";
+  var data = null;
+  var editor = document.getElementById("editor");
+  var statusEl = document.getElementById("status");
+
+  function status(msg) { statusEl.textContent = msg; }
+
+  function saveDraft() {
+    try { localStorage.setItem(KEY, JSON.stringify(data)); }
+    catch (e) { status("ड्राफ़्ट सेव नहीं हुआ (फ़ाइल बहुत बड़ी है)। content.json डाउनलोड करके सेव करें।"); }
+  }
+
+  function clone(v) { return JSON.parse(JSON.stringify(v)); }
+
+  function blank(v) {
+    if (typeof v === "string") return "";
+    if (Array.isArray(v)) return [];
+    if (v && typeof v === "object") {
+      var o = {};
+      Object.keys(v).forEach(function (k) { o[k] = blank(v[k]); });
+      return o;
+    }
+    return "";
+  }
+
+  // Templates for adding new items. Keys are the array path without numeric indexes.
+  var TPL = {
+    "work.projects": { title: "", image: "", link: "" },
+    "shorts.items": { title: "", thumb: "", video: "" },
+    "services.items": { title: "", text: "", icon: "reels" },
+    "skills.groups": { title: "", items: [] },
+    "skills.groups.items": "",
+    "testimonials.items": { quote: "", name: "", photo: "" },
+    "proof.items": { image: "", caption: "" },
+    "faq.items": { q: "", a: "" },
+    "hero.images": { src: "", alt: "" },
+    "extraSections": { title: "", text: "", image: "", video: "" }
+  };
+
+  function keyOf(path) {
+    return path.filter(function (p) { return typeof p !== "number"; }).join(".");
+  }
+
+  function get(path) {
+    var o = data;
+    path.forEach(function (k) { o = o[k]; });
+    return o;
+  }
+
+  function set(path, value) {
+    var o = data;
+    for (var i = 0; i < path.length - 1; i++) o = o[path[i]];
+    o[path[path.length - 1]] = value;
+    saveDraft();
+  }
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+
+  function label(k) {
+    var s = String(k).replace(/([A-Z])/g, " $1");
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function move(path, index, dir) {
+    var arr = get(path);
+    if (dir === 0) {
+      if (!confirm("यह आइटम हटाएँ?")) return;
+      arr.splice(index, 1);
+    } else {
+      var j = index + dir;
+      if (j < 0 || j >= arr.length) return;
+      var tmp = arr[index]; arr[index] = arr[j]; arr[j] = tmp;
+    }
+    set(path, arr);
+    render();
+  }
+
+  function upload(file, path) {
+    if (!file) return;
+    var url = URL.createObjectURL(file);
+    var image = new Image();
+    image.onload = function () {
+      var max = 1400;
+      var s = Math.min(1, max / Math.max(image.width, image.height));
+      var c = document.createElement("canvas");
+      c.width = Math.round(image.width * s);
+      c.height = Math.round(image.height * s);
+      c.getContext("2d").drawImage(image, 0, 0, c.width, c.height);
+      var dataUrl = c.toDataURL("image/jpeg", 0.85);
+      set(path, dataUrl);
+      var kb = Math.round(dataUrl.length / 1024);
+      status("इमेज जुड़ गई (" + kb + " KB)." + (kb > 400 ? " यह बड़ी है, बेहतर होगा कि इमेज को images/ फ़ोल्डर में रखकर path डालें।" : ""));
+      URL.revokeObjectURL(url);
+      render();
+    };
+    image.onerror = function () { status("यह इमेज फ़ाइल नहीं पढ़ी जा सकी।"); URL.revokeObjectURL(url); };
+    image.src = url;
+  }
+
+  function build(val, path, name) {
+    if (Array.isArray(val)) {
+      var box = el("div", "group");
+      box.appendChild(el("h3", "", esc(label(name)) + " <small>(" + val.length + ")</small>"));
+      val.forEach(function (item, i) {
+        var card = el("div", "card");
+        var bar = el("div", "bar");
+        bar.appendChild(el("span", "", "#" + (i + 1)));
+        var tools = el("div");
+        [["↑", -1, ""], ["↓", 1, ""], ["हटाएँ", 0, "danger"]].forEach(function (b) {
+          var btn = el("button", "mini " + b[2], b[0]);
+          btn.type = "button";
+          btn.addEventListener("click", function () { move(path, i, b[1]); });
+          tools.appendChild(btn);
+        });
+        bar.appendChild(tools);
+        card.appendChild(bar);
+        card.appendChild(build(item, path.concat(i), name + " " + (i + 1)));
+        box.appendChild(card);
+      });
+      var add = el("button", "add", "+ नया " + label(name) + " जोड़ें");
+      add.type = "button";
+      add.addEventListener("click", function () {
+        var key = keyOf(path);
+        var t = TPL.hasOwnProperty(key) ? clone(TPL[key]) : (val.length ? blank(val[0]) : "");
+        val.push(t);
+        set(path, val);
+        render();
+      });
+      box.appendChild(add);
+      return box;
+    }
+
+    if (val && typeof val === "object") {
+      var fs = el("fieldset", "obj");
+      fs.appendChild(el("legend", "", esc(label(name))));
+      Object.keys(val).forEach(function (k) {
+        fs.appendChild(build(val[k], path.concat(k), k));
+      });
+      return fs;
+    }
+
+    var f = el("div", "field");
+    f.appendChild(el("label", "", esc(label(name))));
+    var v = val == null ? "" : String(val);
+    var isImage = /image|photo|thumb|src/i.test(name) && !/alt/i.test(name);
+    var isVideo = /video/i.test(name);
+    var isLong = v.length > 90 || /text|intro|lead|quote|answer|^a$|caption|description|tagline|message|copyright|subtitle/i.test(name);
+
+    if (isImage && v.indexOf("data:") === 0) {
+      var prev = el("div", "row");
+      var im = el("img", "thumb");
+      im.src = v;
+      prev.appendChild(im);
+      prev.appendChild(el("span", "hint", "अपलोड की गई इमेज (embedded)"));
+      f.appendChild(prev);
+    } else if (isImage && v) {
+      var prev2 = el("div", "row");
+      var im2 = el("img", "thumb");
+      im2.src = v;
+      im2.onerror = function () { im2.style.opacity = ".3"; };
+      prev2.appendChild(im2);
+      f.appendChild(prev2);
+    }
+
+    var inp = el(isLong ? "textarea" : "input");
+    if (!isLong) inp.type = "text";
+    inp.value = v;
+    inp.addEventListener("input", function () { set(path, inp.value); });
+    f.appendChild(inp);
+
+    if (isImage) {
+      var row = el("div", "row");
+      var fileBtn = el("button", "", "इमेज अपलोड करें");
+      fileBtn.type = "button";
+      var fi = el("input");
+      fi.type = "file";
+      fi.accept = "image/*";
+      fileBtn.addEventListener("click", function () { fi.click(); });
+      fi.addEventListener("change", function () { upload(fi.files[0], path); });
+      row.appendChild(fileBtn);
+      row.appendChild(fi);
+      row.appendChild(el("span", "hint", "या ऊपर इमेज का path लिखें, जैसे images/client1.jpg"));
+      f.appendChild(row);
+    }
+    if (isVideo) {
+      f.appendChild(el("div", "hint", "वीडियो path (videos/file.mp4) या YouTube लिंक। खाली छोड़ने पर प्ले नहीं होगा।"));
+    }
+    return f;
+  }
+
+  function render() {
+    editor.innerHTML = "";
+    if (!data) { editor.appendChild(el("p", "", "कोई content नहीं है। content.json खोलें।")); return; }
+    editor.appendChild(build(data, [], "site"));
+  }
+
+  function setLoaded(obj, msg) {
+    data = obj;
+    saveDraft();
+    render();
+    status(msg);
+  }
+
+  function loadFromServer(msg) {
+    fetch("content.json", { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+      .then(function (j) { setLoaded(j, msg || "content.json लोड हुई।"); })
+      .catch(function () { status("content.json अपने-आप नहीं मिली। ऊपर से 'content.json खोलें' से फ़ाइल चुनें (या local server से खोलें)।"); render(); });
+  }
+
+  document.getElementById("loadBtn").addEventListener("click", function () {
+    document.getElementById("fileIn").click();
+  });
+  document.getElementById("fileIn").addEventListener("change", function (e) {
+    var f = e.target.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try { setLoaded(JSON.parse(reader.result), "फ़ाइल लोड हुई: " + f.name); }
+      catch (err) { status("यह JSON फ़ाइल सही नहीं है।"); }
+    };
+    reader.readAsText(f);
+    e.target.value = "";
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    if (!confirm("ब्राउज़र में सेव हुए बदलाव हटाकर content.json दोबारा लोड करें?")) return;
+    localStorage.removeItem(KEY);
+    loadFromServer("सेव्ड वर्शन दोबारा लोड हुआ।");
+  });
+
+  document.getElementById("dlBtn").addEventListener("click", function () {
+    if (!data) { status("पहले content.json लोड करें।"); return; }
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "content.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    status("content.json डाउनलोड हो गई। इसे GitHub रिपॉज़िटरी में अपलोड करें।");
+  });
+
+  // Start: prefer the saved draft, otherwise the file on the server.
+  var draft = null;
+  try { draft = localStorage.getItem(KEY); } catch (e) {}
+  if (draft) {
+    try {
+      data = JSON.parse(draft);
+      render();
+      status("ब्राउज़र में सेव हुए बदलाव लोड हुए। साइट पर लाइव करने के लिए डाउनलोड करें।");
+    } catch (e) { loadFromServer(); }
+  } else {
+    loadFromServer();
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+})();
+</script>
+</body>
+</html>
