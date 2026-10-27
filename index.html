@@ -128,7 +128,6 @@ details p{margin:14px 0 0}
 .mbox img{max-height:85vh;max-width:100%;border-radius:14px}
 .mbox .vert{height:min(85vh,640px);aspect-ratio:9/16;background:#000;border-radius:14px;overflow:hidden}
 .mbox .vert video,.mbox .vert iframe{width:100%;height:100%;object-fit:contain}
-.mbox .wide{width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}
 .mx{position:absolute;top:-48px;right:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:none;font-size:1.4rem;line-height:1}
 .fallback{padding:160px 20px;text-align:center;color:var(--muted)}
 @media(max-width:1024px){.grid4{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}}
@@ -171,17 +170,29 @@ details p{margin:14px 0 0}
     });
   }
   function src(p) { if (!p) return ""; return BLOBS[p] || p; }
-  function ytEmbed(u) {
-    var m = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{6,})/.exec(u || "");
-    return m ? "https://www.youtube.com/embed/" + m[1] : "";
+
+  /* Turns a link into an embeddable player URL. Returns "" for uploaded files. */
+  function embedUrl(p) {
+    p = p || "";
+    var m;
+    m = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{6,})/.exec(p);
+    if (m) return "https://www.youtube.com/embed/" + m[1];
+    m = /instagram\.com\/(p|reel|reels|tv)\/([\w-]+)/.exec(p);
+    if (m) return "https://www.instagram.com/" + (m[1] === "reels" ? "reel" : m[1]) + "/" + m[2] + "/embed/";
+    m = /drive\.google\.com\/file\/d\/([\w-]+)/.exec(p) || /drive\.google\.com\/open\?id=([\w-]+)/.exec(p);
+    if (m) return "https://drive.google.com/file/d/" + m[1] + "/preview";
+    return "";
   }
+
   function img(p, alt) { var s = src(p); return s ? '<img src="' + esc(s) + '" alt="' + esc(alt) + '" loading="lazy">' : '<div class="img-fail"></div>'; }
+
   function vid(p) {
-    var yt = ytEmbed(p);
-    if (yt) return '<iframe src="' + esc(yt) + '" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
     if (!p) return "";
+    var e = embedUrl(p);
+    if (e) return '<iframe src="' + esc(e) + '" title="Video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';
     return '<video src="' + esc(src(p)) + '" controls playsinline preload="metadata"></video>';
   }
+
   function wa(c) { return "https://wa.me/" + c.brand.whatsapp + "?text=" + encodeURIComponent(c.brand.whatsappMessage || ""); }
   function btn(label, url, cls, c) {
     if (!label) return "";
@@ -391,7 +402,7 @@ details p{margin:14px 0 0}
     var sc = t.closest(".short");
     if (sc) {
       var v = sc.getAttribute("data-video");
-      openMedia(v ? '<div class="vert">' + vid(v) + "</div>" : "<p style=\"color:#a3a3a8\">इस वीडियो का path अभी खाली है।</p>");
+      openMedia(v ? '<div class="vert">' + vid(v) + "</div>" : "<p style=\"color:#a3a3a8\">इस वीडियो का लिंक या path अभी खाली है।</p>");
       return;
     }
     var pc = t.closest(".pcard");
