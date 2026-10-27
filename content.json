@@ -18,10 +18,15 @@
     "creditUrl": "https://www.linkedin.com/in/peushjha/"
   },
   "theme": {
-    "font": "Playfair Display",
-    "radius": 29,
-    "surface": "#0000ff",
-    "text": "#ffff00"
+    "font": "Poppins",
+    "radius": 0,
+    "surface": "#2b1f18",
+    "text": "#fbf1e8",
+    "bg": "#1a120e",
+    "bg2": "#241a14",
+    "muted": "#c9b3a1",
+    "accent": "#ffb000",
+    "headingFont": "Poppins"
   },
   "sections": [
     {
@@ -80,8 +85,8 @@
       "items": [
         {
           "title": "Short video 01",
-          "image": "https://framerusercontent.com/images/vyGtXnTsnZvLds1pTchrBZpPfk.jpeg?width=787&height=762",
-          "video": ""
+          "image": "media/mvr0iszc-1792957689605.jpg",
+          "video": "media/mvr0o63j-files.files"
         },
         {
           "title": "Short video 02",
