@@ -17,96 +17,252 @@
     "creditName": "Peush Jha",
     "creditUrl": "https://www.linkedin.com/in/peushjha/"
   },
-  "hero": {
-    "eyebrow": "Video Editing & Motion Design",
-    "title": "Unleash The Growth Of Your Content",
-    "lead": "We transform raw footage into captivating content that gets seen, shared, and loved. Take your channel to the next level with our expert editing magic.",
-    "primaryButton": "Let's chat",
-    "secondaryButton": "See portfolio",
-    "proofText": "Worked with 40+ clients",
-    "testimonialsLink": "Read testimonials →",
-    "images": [
-      { "src": "https://framerusercontent.com/images/Z1nNtZuGRz4uuf8JDhCMDjhtIE.jpeg?width=1080&height=1350", "alt": "Video edit preview 1" },
-      { "src": "https://framerusercontent.com/images/l6pkSyqchYSVRybCZc9mmTWu0c.jpeg?width=1080&height=1440", "alt": "Video edit preview 2" },
-      { "src": "https://framerusercontent.com/images/5pGJTyGMzHDeK7rB5UWHh0YI204.jpeg?width=1080&height=525", "alt": "Video edit preview 3" },
-      { "src": "https://framerusercontent.com/images/ti4jct1hpNlpxkZZhIHXLBqyjs.jpeg?width=1080&height=1440", "alt": "Video edit preview 4" }
-    ]
+  "theme": {
+    "font": "Playfair Display",
+    "radius": 29,
+    "surface": "#0000ff",
+    "text": "#ffff00"
   },
-  "work": {
-    "title": "My Recent Edits",
-    "intro": "Explore a selection of recent edits, from short-form cuts to longer cinematic pieces.",
-    "projects": [
-      { "title": "Project 01", "image": "https://framerusercontent.com/images/Z1nNtZuGRz4uuf8JDhCMDjhtIE.jpeg?width=1080&height=1350", "link": "" },
-      { "title": "Project 02", "image": "https://framerusercontent.com/images/l6pkSyqchYSVRybCZc9mmTWu0c.jpeg?width=1080&height=1440", "link": "" },
-      { "title": "Project 03", "image": "https://framerusercontent.com/images/5pGJTyGMzHDeK7rB5UWHh0YI204.jpeg?width=1080&height=525", "link": "" },
-      { "title": "Project 04", "image": "https://framerusercontent.com/images/ti4jct1hpNlpxkZZhIHXLBqyjs.jpeg?width=1080&height=1440", "link": "" }
-    ]
-  },
-  "shorts": {
-    "title": "Short Videos",
-    "subtitle": "Vertical edits for Reels, Shorts & TikTok",
-    "items": [
-      { "title": "Short video 01", "thumb": "https://framerusercontent.com/images/vyGtXnTsnZvLds1pTchrBZpPfk.jpeg?width=787&height=762", "video": "" },
-      { "title": "Short video 02", "thumb": "https://framerusercontent.com/images/uNRZFPuHi6WfKCGDZlGVIU2V4.jpeg?width=1080&height=1080", "video": "" },
-      { "title": "Short video 03", "thumb": "https://framerusercontent.com/images/Z1nNtZuGRz4uuf8JDhCMDjhtIE.jpeg?width=1080&height=1350", "video": "" },
-      { "title": "Short video 04", "thumb": "https://framerusercontent.com/images/l6pkSyqchYSVRybCZc9mmTWu0c.jpeg?width=1080&height=1440", "video": "" }
-    ]
-  },
-  "services": {
-    "eyebrow": "Services",
-    "title": "What I can do for You",
-    "intro": "Whether you need quick, scroll-stopping clips or a fully edited long-form piece, each edit is shaped around your footage, your audience, and your goals.",
-    "button": "Follow on Instagram",
-    "items": [
-      { "title": "Short Form Video", "text": "We craft bite-sized, high-impact edits perfect for capturing attention on platforms like Instagram Reels, YouTube Shorts, and TikTok. Our expertise ensures your short-form content is engaging, dynamic, and packs a punch within seconds.", "icon": "reels" },
-      { "title": "Long-Form Video", "text": "We transform your in-depth content into polished, captivating long-form videos. Whether it's a detailed tutorial, an insightful interview, or a captivating vlog, we turn your raw footage into a cohesive, engaging experience for viewers.", "icon": "film" }
-    ]
-  },
-  "skills": {
-    "eyebrow": "Skills",
-    "title": "Each skill is a brushstroke",
-    "intro": "Craft, communication, and strategy working together to strengthen your online presence.",
-    "groups": [
-      { "title": "Editing & Storytelling", "items": ["Storytelling", "Scriptwriting", "Communication", "Time Management", "Problem Solving", "Branding"] },
-      { "title": "Strategy & Finish", "items": ["Content Strategy", "Color Correction", "Audio Mixing", "Transitions & Effects", "Leadership", "Mentoring"] },
-      { "title": "Design & Reach", "items": ["Graphic Design", "Information Architecture", "Motion Design", "SEO Optimization", "Content Strategy", "Social Media Optimization"] }
-    ]
-  },
-  "testimonials": {
-    "eyebrow": "Testimonials",
-    "title": "Client Testimonials",
-    "items": [
-      { "quote": "Madhav's editing skills brought our brand story to life in a way we never imagined. The seamless transitions and attention to detail made our videos truly stand out.", "name": "Ajay sir", "photo": "https://framerusercontent.com/images/vyGtXnTsnZvLds1pTchrBZpPfk.jpeg?width=787&height=762" },
-      { "quote": "Madhav is incredibly reliable and always available when needed. His quick responses and dedication made the whole editing process smooth and stress-free. Highly recommend working with him!", "name": "Rahul Chaudhari", "photo": "https://framerusercontent.com/images/ti4jct1hpNlpxkZZhIHXLBqyjs.jpeg?width=1080&height=1440" },
-      { "quote": "Working with Madhav is effortless thanks to his clear and friendly communication. He understands feedback instantly and makes collaboration smooth from start to finish.", "name": "Navdeep sir", "photo": "https://framerusercontent.com/images/uNRZFPuHi6WfKCGDZlGVIU2V4.jpeg?width=1080&height=1080" },
-      { "quote": "Madhav consistently delivers top-notch edits before the deadline. His speed and quality are unmatched, a true professional who respects time and nails the brief every single time.", "name": "Shashish kumar tiwari", "photo": "https://framerusercontent.com/images/l6pkSyqchYSVRybCZc9mmTWu0c.jpeg?width=1080&height=1440" },
-      { "quote": "Madhav has a unique editing style that instantly grabs attention. The effects he adds elevate the entire video and give it a polished feel. His creative touch is next-level!", "name": "Ankit Jaiswal", "photo": "https://framerusercontent.com/images/Z1nNtZuGRz4uuf8JDhCMDjhtIE.jpeg?width=1080&height=1350" }
-    ]
-  },
-  "proof": {
-    "eyebrow": "Proof",
-    "title": "Proof of work",
-    "intro": "Client results, screenshots, and proof images.",
-    "items": []
-  },
-  "extraSections": [],
-  "faq": {
-    "eyebrow": "FAQ",
-    "title": "Frequently Asked Questions",
-    "items": [
-      { "q": "I have a great video idea, but I'm not sure how to get started. Can you help?", "a": "Yes. Share your idea and footage, and we'll talk through the structure, pacing, and style before editing begins." },
-      { "q": "How can editing make my video more engaging?", "a": "Good editing shapes pacing, rhythm, and transitions so the viewer stays with the story from the first second." },
-      { "q": "Do you offer any special effects or motion graphics?", "a": "Yes. Transitions, effects, and motion design can be added to suit your brand and platform." },
-      { "q": "What if I need edits for different platforms (YouTube vs. Instagram)?", "a": "Yes. Edits can be adapted for different aspect ratios, lengths, and platform conventions." },
-      { "q": "How can I make my video rank higher in search results?", "a": "Edits can be planned with search in mind, including hooks, chapter structure, and thumbnail-friendly moments." },
-      { "q": "How much creative control do I have over the editing process?", "a": "You stay involved at each stage, with feedback rounds built into the process so the final cut matches your vision." },
-      { "q": "Ready to get started? How can I contact you?", "a": "Message me on WhatsApp or email, and we can start with a free discovery chat." }
-    ]
-  },
-  "cta": {
-    "eyebrow": "Get started",
-    "title": "Get started with a free Discovery chat.",
-    "text": "Tell me about your content and goals. We'll figure out the right edit together.",
-    "button": "Let's chat"
-  }
+  "sections": [
+    {
+      "id": "shfamr80",
+      "type": "cards",
+      "visible": true,
+      "animation": "fade-up",
+      "bg": "default",
+      "subtitle": "",
+      "title": "My Recent Edits",
+      "text": "Explore a selection of recent edits, from short-form cuts to longer cinematic pieces.",
+      "note": "",
+      "button": "",
+      "button2": "",
+      "buttonUrl": "",
+      "image": "",
+      "video": "",
+      "items": [
+        {
+          "title": "Project 01",
+          "image": "https://framerusercontent.com/images/Z1nNtZuGRz4uuf8JDhCMDjhtIE.jpeg?width=1080&height=1350",
+          "link": ""
+        },
+        {
+          "title": "Project 02",
+          "image": "https://framerusercontent.com/images/l6pkSyqchYSVRybCZc9mmTWu0c.jpeg?width=1080&height=1440",
+          "link": ""
+        },
+        {
+          "title": "Project 03",
+          "image": "https://framerusercontent.com/images/5pGJTyGMzHDeK7rB5UWHh0YI204.jpeg?width=1080&height=525",
+          "link": ""
+        },
+        {
+          "title": "Project 04",
+          "image": "https://framerusercontent.com/images/ti4jct1hpNlpxkZZhIHXLBqyjs.jpeg?width=1080&height=1440",
+          "link": ""
+        }
+      ]
+    },
+    {
+      "id": "sf3gaij2",
+      "type": "shorts",
+      "visible": true,
+      "animation": "fade-up",
+      "bg": "default",
+      "subtitle": "Vertical edits for Reels, Shorts & TikTok",
+      "title": "Short Videos",
+      "text": "",
+      "note": "",
+      "button": "",
+      "button2": "",
+      "buttonUrl": "",
+      "image": "",
+      "video": "",
+      "items": [
+        {
+          "title": "Short video 01",
+          "image": "https://framerusercontent.com/images/vyGtXnTsnZvLds1pTchrBZpPfk.jpeg?width=787&height=762",
+          "video": ""
+        },
+        {
+          "title": "Short video 02",
+          "image": "https://framerusercontent.com/images/uNRZFPuHi6WfKCGDZlGVIU2V4.jpeg?width=1080&height=1080",
+          "video": ""
+        },
+        {
+          "title": "Short video 03",
+          "image": "https://framerusercontent.com/images/Z1nNtZuGRz4uuf8JDhCMDjhtIE.jpeg?width=1080&height=1350",
+          "video": ""
+        },
+        {
+          "title": "Short video 04",
+          "image": "https://framerusercontent.com/images/l6pkSyqchYSVRybCZc9mmTWu0c.jpeg?width=1080&height=1440",
+          "video": ""
+        }
+      ]
+    },
+    {
+      "id": "sgtlxbe4",
+      "type": "services",
+      "visible": true,
+      "animation": "fade-up",
+      "bg": "default",
+      "subtitle": "Services",
+      "title": "What I can do for You",
+      "text": "Whether you need quick, scroll-stopping clips or a fully edited long-form piece, each edit is shaped around your footage, your audience, and your goals.",
+      "note": "",
+      "button": "Follow on Instagram",
+      "button2": "",
+      "buttonUrl": "",
+      "image": "",
+      "video": "",
+      "items": [
+        {
+          "title": "Short Form Video",
+          "text": "We craft bite-sized, high-impact edits perfect for capturing attention on platforms like Instagram Reels, YouTube Shorts, and TikTok. Our expertise ensures your short-form content is engaging, dynamic, and packs a punch within seconds.",
+          "icon": "reels"
+        },
+        {
+          "title": "Long-Form Video",
+          "text": "We transform your in-depth content into polished, captivating long-form videos. Whether it's a detailed tutorial, an insightful interview, or a captivating vlog, we turn your raw footage into a cohesive, engaging experience for viewers.",
+          "icon": "film"
+        }
+      ]
+    },
+    {
+      "id": "sv56ztz8",
+      "type": "skills",
+      "visible": true,
+      "animation": "fade-up",
+      "bg": "default",
+      "subtitle": "Skills",
+      "title": "Each skill is a brushstroke",
+      "text": "Craft, communication, and strategy working together to strengthen your online presence.",
+      "note": "",
+      "button": "",
+      "button2": "",
+      "buttonUrl": "",
+      "image": "",
+      "video": "",
+      "items": [
+        {
+          "title": "Editing & Storytelling",
+          "text": "Storytelling, Scriptwriting, Communication, Time Management, Problem Solving, Branding"
+        },
+        {
+          "title": "Strategy & Finish",
+          "text": "Content Strategy, Color Correction, Audio Mixing, Transitions & Effects, Leadership, Mentoring"
+        },
+        {
+          "title": "Design & Reach",
+          "text": "Graphic Design, Information Architecture, Motion Design, SEO Optimization, Content Strategy, Social Media Optimization"
+        }
+      ]
+    },
+    {
+      "id": "spzdvhrn",
+      "type": "testimonials",
+      "visible": true,
+      "animation": "fade-up",
+      "bg": "default",
+      "subtitle": "Testimonials",
+      "title": "Client Testimonials",
+      "text": "",
+      "note": "",
+      "button": "",
+      "button2": "",
+      "buttonUrl": "",
+      "image": "",
+      "video": "",
+      "items": [
+        {
+          "title": "Ajay sir",
+          "text": "Madhav's editing skills brought our brand story to life in a way we never imagined. The seamless transitions and attention to detail made our videos truly stand out.",
+          "image": "https://framerusercontent.com/images/vyGtXnTsnZvLds1pTchrBZpPfk.jpeg?width=787&height=762"
+        },
+        {
+          "title": "Rahul Chaudhari",
+          "text": "Madhav is incredibly reliable and always available when needed. His quick responses and dedication made the whole editing process smooth and stress-free. Highly recommend working with him!",
+          "image": "https://framerusercontent.com/images/ti4jct1hpNlpxkZZhIHXLBqyjs.jpeg?width=1080&height=1440"
+        },
+        {
+          "title": "Navdeep sir",
+          "text": "Working with Madhav is effortless thanks to his clear and friendly communication. He understands feedback instantly and makes collaboration smooth from start to finish.",
+          "image": "https://framerusercontent.com/images/uNRZFPuHi6WfKCGDZlGVIU2V4.jpeg?width=1080&height=1080"
+        },
+        {
+          "title": "Shashish kumar tiwari",
+          "text": "Madhav consistently delivers top-notch edits before the deadline. His speed and quality are unmatched, a true professional who respects time and nails the brief every single time.",
+          "image": "https://framerusercontent.com/images/l6pkSyqchYSVRybCZc9mmTWu0c.jpeg?width=1080&height=1440"
+        },
+        {
+          "title": "Ankit Jaiswal",
+          "text": "Madhav has a unique editing style that instantly grabs attention. The effects he adds elevate the entire video and give it a polished feel. His creative touch is next-level!",
+          "image": "https://framerusercontent.com/images/Z1nNtZuGRz4uuf8JDhCMDjhtIE.jpeg?width=1080&height=1350"
+        }
+      ]
+    },
+    {
+      "id": "sogbr5kl",
+      "type": "faq",
+      "visible": true,
+      "animation": "fade-up",
+      "bg": "default",
+      "subtitle": "FAQ",
+      "title": "Frequently Asked Questions",
+      "text": "",
+      "note": "",
+      "button": "",
+      "button2": "",
+      "buttonUrl": "",
+      "image": "",
+      "video": "",
+      "items": [
+        {
+          "title": "I have a great video idea, but I'm not sure how to get started. Can you help?",
+          "text": "Yes. Share your idea and footage, and we'll talk through the structure, pacing, and style before editing begins."
+        },
+        {
+          "title": "How can editing make my video more engaging?",
+          "text": "Good editing shapes pacing, rhythm, and transitions so the viewer stays with the story from the first second."
+        },
+        {
+          "title": "Do you offer any special effects or motion graphics?",
+          "text": "Yes. Transitions, effects, and motion design can be added to suit your brand and platform."
+        },
+        {
+          "title": "What if I need edits for different platforms (YouTube vs. Instagram)?",
+          "text": "Yes. Edits can be adapted for different aspect ratios, lengths, and platform conventions."
+        },
+        {
+          "title": "How can I make my video rank higher in search results?",
+          "text": "Edits can be planned with search in mind, including hooks, chapter structure, and thumbnail-friendly moments."
+        },
+        {
+          "title": "How much creative control do I have over the editing process?",
+          "text": "You stay involved at each stage, with feedback rounds built into the process so the final cut matches your vision."
+        },
+        {
+          "title": "Ready to get started? How can I contact you?",
+          "text": "Message me on WhatsApp or email, and we can start with a free discovery chat."
+        }
+      ]
+    },
+    {
+      "id": "s67y26y6",
+      "type": "cta",
+      "visible": true,
+      "animation": "fade-up",
+      "bg": "default",
+      "subtitle": "Get started",
+      "title": "Get started with a free Discovery chat.",
+      "text": "Tell me about your content and goals. We'll figure out the right edit together.",
+      "note": "",
+      "button": "Let's chat",
+      "button2": "",
+      "buttonUrl": "",
+      "image": "",
+      "video": "",
+      "items": []
+    }
+  ]
 }
