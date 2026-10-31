@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>वेबसाइट एडमिन</title>
+<title>Website Admin</title>
 <style>
 :root{--bg:#f3f4f7;--card:#fff;--line:#e2e4ea;--text:#1d2029;--muted:#6b7080;--accent:#ff5a36;--soft:#ffece7;--ok:#1b8a3c;--bad:#c62828}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5}
 .top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);padding:10px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .top h1{font-size:17px;margin:0 auto 0 0}
 .btn{font:inherit;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--text);padding:9px 14px;border-radius:10px;cursor:pointer;white-space:nowrap}
@@ -32,8 +32,6 @@ body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans D
 .prev.on{display:block}
 @media(min-width:980px){.prev{display:block}}
 .prev iframe{width:100%;height:72vh;min-height:420px;border:1px solid var(--line);border-radius:12px;background:#fff}
-.prevtog{display:block;margin:0 0 10px}
-@media(min-width:980px){.prevtog{display:none}}
 .srow{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:#fff;cursor:pointer}
 .srow.sel{border-color:var(--accent);background:var(--soft)}
 .srow.off{opacity:.5}
@@ -46,9 +44,10 @@ body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans D
 .f{margin-bottom:14px}
 .f>label{display:block;font-weight:600;font-size:13px;margin-bottom:5px}
 .f small{display:block;color:var(--muted);font-size:12px;margin-top:4px}
-.f input[type=text],.f textarea,.f select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
+.f input[type=text],.f input[type=number],.f textarea,.f select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
 .f textarea{min-height:82px;resize:vertical}
 .f input[type=range]{width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .media{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border:1px dashed #cfd3dc;border-radius:12px;padding:10px;background:#fbfbfd}
 .media .pv{width:96px;height:66px;object-fit:cover;border-radius:8px;background:#eceef3;flex-shrink:0}
 .media .mi{flex:1;min-width:160px}
@@ -58,8 +57,9 @@ body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans D
 .item .ih{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:var(--muted);font-weight:600}
 .item .ih div{display:flex;gap:6px}
 .grp{font-size:14px;font-weight:700;margin:18px 0 8px;color:var(--accent)}
+.anim{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px;background:#fbfbfd}
 .colors{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:520px){.colors{grid-template-columns:1fr}}
+@media(max-width:520px){.colors,.row2{grid-template-columns:1fr}}
 .colors input[type=color]{width:100%;height:44px;padding:3px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer}
 .presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;z-index:50}
@@ -79,92 +79,99 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
 <body>
 
 <div class="top">
-  <h1>वेबसाइट एडमिन</h1>
-  <button class="btn" id="btnPrev">पूर्वावलोकन दिखाएँ</button>
-  <button class="btn" id="btnDl">फ़ाइल डाउनलोड</button>
-  <button class="btn main" id="btnPub">लाइव करें</button>
+  <h1>Website Admin</h1>
+  <button class="btn" id="btnPrev">Show preview</button>
+  <button class="btn" id="btnDl">Download file</button>
+  <button class="btn main" id="btnPub">Publish live</button>
   <div class="status" id="status"></div>
 </div>
 
 <div class="tabs">
-  <button class="tab on" data-tab="sections">सेक्शन</button>
-  <button class="tab" data-tab="look">रंग और फ़ॉन्ट</button>
-  <button class="tab" data-tab="setup">सेटिंग (पहली बार)</button>
+  <button class="tab on" data-tab="sections">Sections</button>
+  <button class="tab" data-tab="look">Design</button>
+  <button class="tab" data-tab="setup">Setup (GitHub)</button>
 </div>
 
 <div class="wrap">
   <div>
     <!-- Sections tab -->
     <div class="panel" id="tab-sections">
-      <h2>आपकी वेबसाइट के सेक्शन</h2>
-      <p class="hint">सेक्शन पर टैप करके उसे एडिट करें। 👁 से छिपा सकते हैं, ↑↓ से क्रम बदल सकते हैं, ⧉ से कॉपी और 🗑 से हटा सकते हैं।</p>
+      <h2>Website sections</h2>
+      <p class="hint">Tap a section to edit it. Use 👁 to hide it, ↑ ↓ to reorder, ⧉ to duplicate and 🗑 to delete.</p>
       <div id="list"></div>
-      <button class="btn dash" id="btnAdd">+ नया सेक्शन जोड़ें</button>
+      <button class="btn dash" id="btnAdd">+ Add new section</button>
       <div id="editor" style="margin-top:18px"></div>
     </div>
 
-    <!-- Look tab -->
+    <!-- Design tab -->
     <div class="panel" id="tab-look" hidden>
-      <h2>रंग, फ़ॉन्ट और लुक</h2>
-      <p class="hint">बदलाव तुरंत पूर्वावलोकन में दिखेंगे।</p>
-      <div class="grp">तैयार पैलेट</div>
+      <h2>Design</h2>
+      <p class="hint">Changes appear in the preview right away. Publish to put them on the live site.</p>
+      <div class="grp">Ready-made palettes</div>
       <div class="presets">
-        <button class="btn small" data-preset="dark">गहरा</button>
-        <button class="btn small" data-preset="light">हल्का</button>
-        <button class="btn small" data-preset="warm">गर्म</button>
+        <button class="btn small" data-preset="dark">Dark</button>
+        <button class="btn small" data-preset="light">Light</button>
+        <button class="btn small" data-preset="warm">Warm</button>
       </div>
-      <div class="grp">रंग</div>
+      <div class="grp">Colors</div>
       <div class="colors" id="colors"></div>
-      <div class="grp">कोने की गोलाई</div>
-      <div class="f"><input type="range" id="radius" min="0" max="40" step="1"><small>बाएँ से दाएँ: बिल्कुल सीधे कोने से गोल कोने तक</small></div>
-      <div class="grp">फ़ॉन्ट</div>
-      <div class="f"><label>मुख्य फ़ॉन्ट (पूरी साइट)</label><select id="font"></select></div>
-      <div class="f"><label>हेडिंग का फ़ॉन्ट</label><select id="hfont"></select></div>
+      <div class="grp">Typography</div>
+      <div class="f"><label>Body font</label><select id="font"></select></div>
+      <div class="f"><label>Heading font</label><select id="hfont"></select></div>
+      <div class="f"><label>Heading size: <span id="hsVal"></span></label><input type="range" id="hs" min="0.8" max="1.4" step="0.05"></div>
       <div class="f">
-        <label>अपना फ़ॉन्ट फ़ाइल (.woff2 / .ttf)</label>
-        <div class="media"><div class="mi"><input type="text" id="fontPath" readonly placeholder="कोई कस्टम फ़ॉन्ट नहीं"></div>
-          <div class="mbtns"><button class="btn small" id="fontPick">फ़ॉन्ट फ़ाइल चुनें</button><button class="btn small danger" id="fontClear">हटाएँ</button></div></div>
-        <small>कस्टम फ़ॉन्ट चलाने के लिए GitHub सेटिंग ज़रूरी है। फ़ॉन्ट मुख्य फ़ॉन्ट के रूप में लागू होगा।</small>
+        <label>Custom font file (.woff2 / .ttf)</label>
+        <div class="media"><div class="mi"><input type="text" id="fontPath" readonly placeholder="No custom font"></div>
+          <div class="mbtns"><button class="btn small" id="fontPick">Choose font file</button><button class="btn small danger" id="fontClear">Remove</button></div></div>
+        <small>Custom fonts need GitHub setup (see the Setup tab).</small>
       </div>
-      <div class="grp">AI से बनवाया CSS (वैकल्पिक)</div>
-      <div class="f"><textarea id="customCss" style="min-height:140px;font-family:monospace;font-size:13px" placeholder="जैसे: .sec{padding:80px 0}"></textarea><small>अगर AI या मुझसे कोई खास लुक बनवाया है, तो उसका CSS यहाँ पेस्ट करें।</small></div>
+      <div class="grp">Layout and style</div>
+      <div class="f"><label>Section spacing (px): <span id="spVal"></span></label><input type="range" id="sp" min="40" max="160" step="5"></div>
+      <div class="f"><label>Card corner radius (px): <span id="rVal"></span></label><input type="range" id="radius" min="0" max="40" step="1"></div>
+      <div class="row2">
+        <div class="f"><label>Shadow</label><select id="shadow"></select></div>
+        <div class="f"><label>Button style</label><select id="btnStyle"></select></div>
+      </div>
+      <div class="presets"><button class="btn small danger" id="resetTheme">Reset design to default</button></div>
+      <div class="grp">Advanced CSS (optional)</div>
+      <div class="f"><textarea id="customCss" style="min-height:120px;font-family:monospace;font-size:13px" placeholder=".sec{padding:80px 0}"></textarea><small>Paste custom CSS here, for example from an AI tool.</small></div>
     </div>
 
     <!-- Setup tab -->
     <div class="panel" id="tab-setup" hidden>
-      <h2>GitHub से लाइव करने की सेटिंग</h2>
-      <p class="hint">यह सेटिंग एक बार करनी है। इससे बदलाव सीधे GitHub पर जाएँगे और वीडियो व इमेज आपकी ही साइट पर रहेंगी।</p>
-      <div class="f"><label>GitHub यूज़रनेम (owner)</label><input type="text" id="cOwner"></div>
-      <div class="f"><label>रिपॉज़िटरी का नाम</label><input type="text" id="cRepo"></div>
-      <div class="f"><label>ब्रांच</label><input type="text" id="cBranch" value="main"></div>
-      <div class="f"><label>Token (पासवर्ड जैसा है, किसी को न दें)</label><input type="text" id="cToken" autocomplete="off" placeholder="github_pat_..."></div>
-      <div class="presets"><button class="btn main small" id="cSave">सेटिंग सेव करें</button><button class="btn small" id="cTest">कनेक्शन जाँचें</button></div>
-      <div class="grp">Token कैसे बनाएँ</div>
+      <h2>GitHub publishing setup</h2>
+      <p class="hint">Do this once. Publishing writes directly to your GitHub repository, and videos and images are stored on your own site.</p>
+      <div class="f"><label>GitHub username (owner)</label><input type="text" id="cOwner"></div>
+      <div class="f"><label>Repository name</label><input type="text" id="cRepo"></div>
+      <div class="f"><label>Branch</label><input type="text" id="cBranch" value="main"></div>
+      <div class="f"><label>Token (treat it like a password)</label><input type="text" id="cToken" autocomplete="off" placeholder="github_pat_..."></div>
+      <div class="presets"><button class="btn main small" id="cSave">Save settings</button><button class="btn small" id="cTest">Check connection</button></div>
+      <div class="grp">How to create a token</div>
       <ol class="steps">
-        <li>GitHub पर लॉगिन करें, फिर अपनी प्रोफ़ाइल फ़ोटो → <b>Settings</b> → नीचे <b>Developer settings</b>।</li>
-        <li><b>Personal access tokens → Fine-grained tokens → Generate new token</b> चुनें।</li>
-        <li>Repository access में <b>Only select repositories</b> चुनें और अपनी रिपॉज़िटरी (जैसे <code>Mdsmotion1</code>) चुनें।</li>
-        <li>Permissions में <b>Contents</b> को <b>Read and write</b> करें।</li>
-        <li><b>Generate token</b> दबाएँ, दिखा हुआ token कॉपी करके ऊपर Token वाले बॉक्स में चिपकाएँ और सेव करें।</li>
+        <li>On GitHub, open your profile photo → <b>Settings</b> → scroll down to <b>Developer settings</b>.</li>
+        <li>Go to <b>Personal access tokens → Fine-grained tokens → Generate new token</b>.</li>
+        <li>Under Repository access choose <b>Only select repositories</b> and select your repository (for example <code>Mdsmotion1</code>).</li>
+        <li>Under Repository permissions add <b>Contents</b> and set it to <b>Read and write</b>.</li>
+        <li>Click <b>Generate token</b>, copy it and paste it above, then save.</li>
       </ol>
-      <p class="hint">Token केवल इसी फ़ोन/ब्राउज़र में सेव होता है। अगर token खो जाए या किसी और के हाथ लगे, तो GitHub पर जाकर उसे Delete कर दें और नया बना लें।</p>
+      <p class="hint">The token is saved only in this browser. If it is lost or exposed, delete it on GitHub and create a new one.</p>
     </div>
   </div>
 
   <div class="prev" id="prevWrap">
     <div class="panel">
-      <h2>लाइव पूर्वावलोकन</h2>
-      <p class="hint">यह वही है जो साइट पर दिखेगा। "लाइव करें" दबाने के बाद 1–2 मिनट में असली साइट पर भी दिख जाएगा।</p>
-      <iframe id="pv" src="index.html?preview=1" title="पूर्वावलोकन"></iframe>
+      <h2>Live preview</h2>
+      <p class="hint">This is what the website will look like. Publish live to update the public site, which usually takes 1–2 minutes.</p>
+      <iframe id="pv" src="index.html?preview=1" title="Preview"></iframe>
     </div>
   </div>
 </div>
 
 <div class="sheet" id="sheet">
   <div class="box">
-    <h2 style="margin:0 0 10px;font-size:17px">कौन-सा सेक्शन जोड़ें?</h2>
+    <h2 style="margin:0 0 10px;font-size:17px">Which section do you want to add?</h2>
     <div id="types"></div>
-    <button class="btn" id="sheetClose" style="width:100%;margin-top:6px">बंद करें</button>
+    <button class="btn" id="sheetClose" style="width:100%;margin-top:6px">Close</button>
   </div>
 </div>
 
@@ -175,61 +182,58 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
   var CFG_KEY = "mds-cfg", DRAFT_KEY = "mds-draft";
   var C = null, sel = -1, blobs = {}, timer = null;
 
-  /* ---------- Section types (Hindi labels) ---------- */
+  /* ---------- Section types ---------- */
   var TYPES = {
-    hero: { name: "सबसे ऊपर का हिस्सा (Hero)", desc: "बड़ा शीर्षक, टेक्स्ट, बटन और इमेज", title: "आपका मुख्य शीर्षक",
-      d: { subtitle: "Video Editing & Motion Design", text: "अपना छोटा परिचय यहाँ लिखें।", button: "Let's chat", button2: "See portfolio", note: "" },
+    hero: { name: "Hero (top of page)", desc: "Large headline, text, buttons and images", title: "Your main headline", big: true,
+      d: { subtitle: "Video Editing & Motion Design", text: "Write a short introduction here.", button: "Let's chat", button2: "See portfolio", note: "" },
       fields: ["subtitle", "title", "text", "note", "button", "button2", "buttonUrl"],
-      items: [["image", "इमेज", "image"], ["title", "इमेज का छोटा विवरण", "text"]], count: 2 },
-    cards: { name: "प्रोजेक्ट कार्ड (Work)", desc: "इमेज वाले प्रोजेक्ट बॉक्स", title: "मेरे हाल के काम",
-      d: { subtitle: "" , text: "" },
-      fields: ["subtitle", "title", "text"],
-      items: [["title", "प्रोजेक्ट का नाम", "text"], ["image", "कवर इमेज", "image"], ["link", "लिंक (वैकल्पिक)", "text"]], count: 2 },
-    shorts: { name: "शॉर्ट वीडियो", desc: "आपके अपने वीडियो, साइट पर ही चलेंगे", title: "शॉर्ट वीडियो",
-      d: { subtitle: "Vertical edits for Reels, Shorts & TikTok" },
-      fields: ["subtitle", "title"],
-      items: [["title", "वीडियो का नाम", "text"], ["image", "थंबनेल इमेज", "image"], ["video", "वीडियो फ़ाइल", "video"]], count: 2 },
-    services: { name: "सर्विसेज़", desc: "आप क्या-क्या करते हैं", title: "आपके लिए मैं क्या कर सकता हूँ",
-      d: { subtitle: "Services", text: "" , button: "Follow on Instagram" },
-      fields: ["subtitle", "title", "text", "button", "buttonUrl"],
-      items: [["title", "सर्विस का नाम", "text"], ["text", "विवरण", "long"], ["icon", "आइकन", "icon"]], count: 2 },
-    skills: { name: "स्किल्स", desc: "स्किल्स के ग्रुप", title: "मेरी स्किल्स",
-      d: { subtitle: "Skills" },
-      fields: ["subtitle", "title", "text"],
-      items: [["title", "ग्रुप का नाम", "text"], ["text", "स्किल्स (कॉमा से अलग करें)", "long"]], count: 1 },
-    testimonials: { name: "क्लाइंट टेस्टिमोनियल", desc: "क्लाइंट की राय और फ़ोटो", title: "क्लाइंट की राय",
-      d: { subtitle: "Testimonials" },
-      fields: ["subtitle", "title"],
-      items: [["title", "क्लाइंट का नाम", "text"], ["text", "राय", "long"], ["image", "क्लाइंट की फ़ोटो", "image"]], count: 1 },
-    faq: { name: "सवाल-जवाब (FAQ)", desc: "अक्सर पूछे जाने वाले सवाल", title: "अक्सर पूछे जाने वाले सवाल",
-      d: { subtitle: "FAQ" },
-      fields: ["subtitle", "title"],
-      items: [["title", "सवाल", "text"], ["text", "जवाब", "long"]], count: 1 },
-    gallery: { name: "प्रूफ़ गैलरी", desc: "प्रूफ़ की इमेज, क्लिक करने पर बड़ी दिखेंगी", title: "काम का प्रूफ़",
-      d: { subtitle: "Proof" },
-      fields: ["subtitle", "title", "text"],
-      items: [["image", "इमेज", "image"], ["title", "कैप्शन", "text"]], count: 1 },
-    media: { name: "वीडियो या इमेज ब्लॉक", desc: "एक बड़ा वीडियो या इमेज, टेक्स्ट के साथ", title: "नया सेक्शन",
+      items: [["image", "Image", "image"], ["title", "Image caption (alt text)", "text"]], count: 2 },
+    cards: { name: "Project cards (Work)", desc: "Project boxes with cover images", title: "My recent work",
+      d: {}, fields: ["subtitle", "title", "text"],
+      items: [["title", "Project name", "text"], ["image", "Cover image", "image"], ["link", "Link (optional)", "text"]], count: 2 },
+    shorts: { name: "Short videos", desc: "Your own short videos, played on this site", title: "Short videos",
+      d: { subtitle: "Vertical edits for Reels, Shorts & TikTok" }, fields: ["subtitle", "title"],
+      items: [["title", "Video name", "text"], ["image", "Thumbnail image", "image"], ["video", "Video link or file", "video"]], count: 2 },
+    services: { name: "Services", desc: "What you offer", title: "What I can do for you",
+      d: { subtitle: "Services", button: "Follow on Instagram" }, fields: ["subtitle", "title", "text", "button", "buttonUrl"],
+      items: [["title", "Service name", "text"], ["text", "Description", "long"], ["icon", "Icon", "icon"]], count: 2 },
+    skills: { name: "Skills", desc: "Groups of skills", title: "My skills",
+      d: { subtitle: "Skills" }, fields: ["subtitle", "title", "text"],
+      items: [["title", "Group name", "text"], ["text", "Skills (separate with commas)", "long"]], count: 1 },
+    testimonials: { name: "Client testimonials", desc: "Client reviews and photos", title: "What clients say",
+      d: { subtitle: "Testimonials" }, fields: ["subtitle", "title"],
+      items: [["title", "Client name", "text"], ["text", "Review", "long"], ["image", "Client photo", "image"]], count: 1 },
+    faq: { name: "FAQ", desc: "Frequently asked questions", title: "Frequently asked questions",
+      d: { subtitle: "FAQ" }, fields: ["subtitle", "title"],
+      items: [["title", "Question", "text"], ["text", "Answer", "long"]], count: 1 },
+    gallery: { name: "Proof gallery", desc: "Proof images, opened full size when clicked", title: "Proof of work",
+      d: { subtitle: "Proof" }, fields: ["subtitle", "title", "text"],
+      items: [["image", "Image", "image"], ["title", "Caption", "text"]], count: 1 },
+    media: { name: "Video or image block", desc: "One large video or image with text", title: "New section",
       d: {}, fields: ["subtitle", "title", "text", "image", "video"], items: null, count: 0 },
-    cta: { name: "बटन वाला आख़िरी बैनर", desc: "आख़िर में बड़ा बटन", title: "शुरू करें",
+    cta: { name: "Closing banner with button", desc: "A large button banner near the end", title: "Get started", big: true,
       d: { subtitle: "Get started", text: "Tell me about your content and goals.", button: "Let's chat" },
       fields: ["subtitle", "title", "text", "button", "buttonUrl"], items: null, count: 0 }
   };
-  var FL = { subtitle: "छोटा ऊपरी टेक्स्ट", title: "मुख्य शीर्षक", text: "विवरण", note: "नोट लाइन (जैसे 40+ clients)",
-    button: "मुख्य बटन का लेबल", button2: "दूसरे बटन का लेबल", buttonUrl: "बटन का लिंक (खाली छोड़ें तो WhatsApp)",
-    image: "इमेज", video: "वीडियो" };
-  var KIND = { subtitle: "text", title: "text", note: "text", button: "text", button2: "text", buttonUrl: "text",
-    text: "long", image: "image", video: "video" };
-  var ANIMS = [["fade-up", "नीचे से ऊपर आए (डिफ़ॉल्ट)"], ["fade", "धीरे-धीरे दिखे"], ["zoom", "ज़ूम होकर आए"],
-    ["slide-left", "बाएँ से आए"], ["slide-right", "दाएँ से आए"], ["none", "कोई एनिमेशन नहीं"]];
-  var FONTS = ["system", "Inter", "Poppins", "Montserrat", "Roboto", "Playfair Display", "Noto Sans Devanagari", "Tiro Devanagari Hindi"];
+  var FL = { subtitle: "Small label above the title", title: "Main title", text: "Text", note: "Note line (e.g. 40+ clients)",
+    button: "Main button label", button2: "Second button label", buttonUrl: "Button link (leave empty for WhatsApp)",
+    image: "Image", video: "Video" };
+  var KIND = { subtitle: "text", title: "text", note: "text", button: "text", button2: "text", buttonUrl: "text", text: "long", image: "image", video: "video" };
+
+  var ANIM_TYPES = [["fade-up", "Fade up"], ["fade", "Fade"], ["pop-up", "Pop up"], ["slide-left", "Slide left"], ["slide-right", "Slide right"], ["scale-in", "Scale in"], ["none", "None"]];
+  var EASINGS = [["spring", "Spring (bouncy)"], ["ease-out", "Smooth ease-out"], ["ease-in-out", "Ease in-out"], ["linear", "Linear"]];
+  var TRIGGERS = [["scroll", "When the section scrolls into view"], ["load", "When the page loads"]];
+
+  var DEFAULT_THEME = { bg: "#0b0b0c", bg2: "#141416", surface: "#1a1a1d", text: "#f2f2f2", muted: "#a3a3a8", accent: "#ff5a36",
+    radius: 22, sectionSpacing: 90, headingScale: 1, shadow: "none", buttonStyle: "pill", font: "system", headingFont: "", fontFile: "", customCss: "" };
   var PRESETS = {
     dark: { bg: "#0b0b0c", bg2: "#141416", surface: "#1a1a1d", text: "#f2f2f2", muted: "#a3a3a8", accent: "#ff5a36" },
     light: { bg: "#f4f4f6", bg2: "#ffffff", surface: "#ffffff", text: "#111216", muted: "#5d6170", accent: "#e5482a" },
     warm: { bg: "#1a120e", bg2: "#241a14", surface: "#2b1f18", text: "#fbf1e8", muted: "#c9b3a1", accent: "#ffb000" }
   };
-  var COLORS = [["bg", "मुख्य बैकग्राउंड"], ["bg2", "दूसरा बैकग्राउंड (अलग सेक्शन)"], ["surface", "कार्ड का रंग"],
-    ["text", "मुख्य टेक्स्ट"], ["muted", "हल्का टेक्स्ट"], ["accent", "हाइलाइट / बटन का रंग"]];
+  var COLORS = [["bg", "Main background"], ["bg2", "Second background (alternate sections)"], ["surface", "Card color"],
+    ["text", "Main text"], ["muted", "Secondary text"], ["accent", "Highlight / button color"]];
+  var FONTS = ["system", "Inter", "Poppins", "Montserrat", "Roboto", "Playfair Display", "Noto Sans Devanagari", "Tiro Devanagari Hindi"];
 
   /* ---------- Helpers ---------- */
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -243,28 +247,50 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
   }
   function changed() { saveDraft(); renderSections(); renderEditor(); schedulePreview(); }
   function touched() { saveDraft(); schedulePreview(); }
-  function saveDraft() { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(C)); } catch (e) { status("ब्राउज़र स्टोरेज भर गया है। फ़ाइल डाउनलोड करके बचाएँ।", "err"); } }
-  function requireToken() { if (!cfgDefaults().token) throw new Error("पहले 'सेटिंग' टैब में GitHub token डालें"); }
+  function saveDraft() { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(C)); } catch (e) { status("Browser storage is full. Download the file to keep a backup.", "err"); } }
+  function requireToken() { if (!cfgDefaults().token) throw new Error("Add your GitHub token in the Setup tab first."); }
 
+  function defaultAnim(type) {
+    var big = !!(TYPES[type] && TYPES[type].big);
+    return { type: big ? "pop-up" : "fade-up", duration: big ? 700 : 600, delay: 0, distance: 30, scale: 0.9,
+      easing: big ? "spring" : "ease-out", trigger: "scroll", replay: false };
+  }
+  function animOf(s) {
+    var a = s.animation;
+    if (typeof a === "string") a = { type: a };
+    var d = defaultAnim(s.type);
+    if (!a) return d;
+    Object.keys(d).forEach(function (k) { if (a[k] === undefined || a[k] === null) a[k] = d[k]; });
+    return a;
+  }
   function makeItem(type) {
-    var it = {}; var def = TYPES[type].items || [];
-    def.forEach(function (d) { it[d[0]] = d[0] === "icon" ? "reels" : ""; });
+    var it = {}; (TYPES[type].items || []).forEach(function (d) { it[d[0]] = d[0] === "icon" ? "reels" : ""; });
     return it;
   }
   function makeSection(type) {
     var t = TYPES[type];
-    var s = { id: uid(), type: type, visible: true, animation: "fade-up", bg: "default", subtitle: "", title: t.title, text: "", note: "", button: "", button2: "", buttonUrl: "", image: "", video: "", items: [] };
+    var s = { id: uid(), type: type, visible: true, animation: defaultAnim(type), bg: "default", subtitle: "", title: t.title, text: "", note: "", button: "", button2: "", buttonUrl: "", image: "", video: "", items: [] };
     Object.keys(t.d || {}).forEach(function (k) { s[k] = t.d[k]; });
     for (var i = 0; i < (t.count || 0); i++) s.items.push(makeItem(type));
     return s;
   }
+  function themeOf(t) {
+    t = t || {};
+    var out = {};
+    Object.keys(DEFAULT_THEME).forEach(function (k) { out[k] = t[k] === undefined ? DEFAULT_THEME[k] : t[k]; });
+    return out;
+  }
 
-  /* Converts the older content.json format into sections. Safe to call on new files too. */
+  /* Converts the older content.json format into sections, and fills in missing settings. */
   function normalize(o) {
     o = o || {};
-    if (Array.isArray(o.sections)) { o.theme = o.theme || {}; o.brand = o.brand || {}; return o; }
-    var n = { brand: o.brand || {}, theme: o.theme || {}, sections: [] };
-    function add(type, props) { var s = makeSection(type); Object.keys(props).forEach(function (k) { s[k] = props[k]; }); n.sections.push(s); return s; }
+    if (Array.isArray(o.sections)) {
+      o.theme = themeOf(o.theme);
+      o.sections.forEach(function (s) { s.animation = animOf(s); });
+      return o;
+    }
+    var n = { brand: o.brand || {}, theme: themeOf(o.theme), sections: [] };
+    function add(type, props) { var s = makeSection(type); Object.keys(props).forEach(function (k) { s[k] = props[k]; }); n.sections.push(s); }
     var h = o.hero || {};
     add("hero", { subtitle: h.eyebrow || "", title: h.title || "", text: h.lead || "", button: h.primaryButton || "", button2: h.secondaryButton || "", note: h.proofText || "",
       items: (h.images || []).map(function (x) { return { image: x.src || "", title: x.alt || "" }; }) });
@@ -291,19 +317,17 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
   /* ---------- Sections list ---------- */
   function renderSections() {
     var box = $("list"); box.innerHTML = "";
-    if (!C.sections.length) box.appendChild(el("div", "empty", "अभी कोई सेक्शन नहीं है। नीचे '+ नया सेक्शन जोड़ें' दबाएँ।"));
+    if (!C.sections.length) box.appendChild(el("div", "empty", "No sections yet. Tap '+ Add new section' below."));
     C.sections.forEach(function (s, i) {
       var row = el("div", "srow" + (i === sel ? " sel" : "") + (s.visible ? "" : " off"));
-      row.innerHTML = '<div class="nm"><b>' + esc(TYPES[s.type].name) + '</b><span>' + esc(s.title || "(बिना शीर्षक)") + (s.visible ? "" : " · छिपा हुआ") + '</span></div><div class="acts"></div>';
+      row.innerHTML = '<div class="nm"><b>' + esc(TYPES[s.type].name) + '</b><span>' + esc(s.title || "(no title)") + (s.visible ? "" : " · hidden") + '</span></div><div class="acts"></div>';
       var acts = row.querySelector(".acts");
-      var list = [
-        [s.visible ? "👁" : "🚫", "दिखाएँ / छिपाएँ", function () { s.visible = !s.visible; changed(); }],
-        ["↑", "ऊपर ले जाएँ", function () { if (i > 0) { swap(i, i - 1); sel = i - 1; changed(); } }],
-        ["↓", "नीचे ले जाएँ", function () { if (i < C.sections.length - 1) { swap(i, i + 1); sel = i + 1; changed(); } }],
-        ["⧉", "कॉपी करें", function () { var c2 = JSON.parse(JSON.stringify(s)); c2.id = uid(); C.sections.splice(i + 1, 0, c2); sel = i + 1; changed(); }],
-        ["🗑", "हटाएँ", function () { if (confirm("यह सेक्शन हटाएँ?")) { C.sections.splice(i, 1); sel = -1; changed(); } }]
-      ];
-      list.forEach(function (b) {
+      [[s.visible ? "👁" : "🚫", "Show or hide", function () { s.visible = !s.visible; changed(); }],
+       ["↑", "Move up", function () { if (i > 0) { swap(i, i - 1); sel = i - 1; changed(); } }],
+       ["↓", "Move down", function () { if (i < C.sections.length - 1) { swap(i, i + 1); sel = i + 1; changed(); } }],
+       ["⧉", "Duplicate", function () { var c2 = JSON.parse(JSON.stringify(s)); c2.id = uid(); C.sections.splice(i + 1, 0, c2); sel = i + 1; changed(); }],
+       ["🗑", "Delete", function () { if (confirm("Delete this section?")) { C.sections.splice(i, 1); sel = -1; changed(); } }]
+      ].forEach(function (b) {
         var bt = el("button", "", b[0]); bt.title = b[1]; bt.setAttribute("aria-label", b[1]);
         bt.addEventListener("click", function (e) { e.stopPropagation(); b[2](); });
         acts.appendChild(bt);
@@ -315,10 +339,10 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
   function swap(a, b) { var t = C.sections[a]; C.sections[a] = C.sections[b]; C.sections[b] = t; }
 
   /* ---------- Editor ---------- */
-  function fieldRow(obj, key, kind, label, onChange) {
+  function fieldRow(obj, key, kind, label) {
     var w = el("div", "f");
     w.appendChild(el("label", "", esc(label)));
-    if (kind === "image" || kind === "video") { w.appendChild(mediaField(obj, key, kind, onChange)); return w; }
+    if (kind === "image" || kind === "video") { w.appendChild(mediaField(obj, key, kind)); return w; }
     if (kind === "long") {
       var t = el("textarea"); t.value = obj[key] || "";
       t.addEventListener("input", function () { obj[key] = t.value; touched(); });
@@ -326,7 +350,7 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
     }
     if (kind === "icon") {
       var sl = el("select");
-      [["reels", "वर्टिकल (रील्स / शॉर्ट्स)"], ["film", "फ़िल्म / लंबा वीडियो"]].forEach(function (o) {
+      [["reels", "Vertical (Reels / Shorts)"], ["film", "Film / long video"]].forEach(function (o) {
         var op = el("option", "", esc(o[1])); op.value = o[0]; if ((obj[key] || "reels") === o[0]) op.selected = true; sl.appendChild(op);
       });
       sl.addEventListener("change", function () { obj[key] = sl.value; touched(); });
@@ -338,12 +362,51 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
     return w;
   }
 
-  function selectRow(obj, key, label, opts) {
+  function selectRow(obj, key, label, opts, onChange) {
     var w = el("div", "f"); w.appendChild(el("label", "", esc(label)));
     var sl = el("select");
-    opts.forEach(function (o) { var op = el("option", "", esc(o[1])); op.value = o[0]; if ((obj[key] || "") === o[0]) op.selected = true; sl.appendChild(op); });
-    sl.addEventListener("change", function () { obj[key] = sl.value; touched(); });
+    opts.forEach(function (o) { var op = el("option", "", esc(o[1])); op.value = o[0]; if (String(obj[key]) === o[0]) op.selected = true; sl.appendChild(op); });
+    sl.addEventListener("change", function () { obj[key] = sl.value; (onChange || touched)(); });
     w.appendChild(sl); return w;
+  }
+
+  function numberRow(obj, key, label, min, max, step, unit) {
+    var w = el("div", "f"); w.appendChild(el("label", "", esc(label) + (unit ? " (" + unit + ")" : "")));
+    var i = el("input"); i.type = "number"; i.min = min; i.max = max; i.step = step; i.value = obj[key];
+    i.addEventListener("input", function () { var v = Number(i.value); if (isFinite(v)) { obj[key] = v; touched(); } });
+    w.appendChild(i); return w;
+  }
+
+  function checkRow(obj, key, label) {
+    var w = el("label", "f"); w.style.display = "flex"; w.style.gap = "8px"; w.style.alignItems = "center";
+    var c = el("input"); c.type = "checkbox"; c.checked = !!obj[key];
+    c.addEventListener("change", function () { obj[key] = c.checked; touched(); });
+    w.appendChild(c); w.appendChild(el("span", "", esc(label))); return w;
+  }
+
+  function animationPanel(s) {
+    var a = animOf(s);
+    s.animation = a;
+    var box = el("div", "anim");
+    box.appendChild(el("div", "grp", "Section animation"));
+    box.appendChild(el("p", "hint", "Changes apply on the live site after publishing, and show in the preview immediately."));
+    box.appendChild(selectRow(a, "type", "Animation type", ANIM_TYPES));
+    box.appendChild(selectRow(a, "trigger", "Starts when", TRIGGERS));
+    var r = el("div", "row2");
+    r.appendChild(numberRow(a, "duration", "Duration", 100, 3000, 50, "ms"));
+    r.appendChild(numberRow(a, "delay", "Delay", 0, 3000, 50, "ms"));
+    box.appendChild(r);
+    var r2 = el("div", "row2");
+    r2.appendChild(numberRow(a, "distance", "Distance", 0, 200, 5, "px"));
+    r2.appendChild(numberRow(a, "scale", "Scale start", 0.2, 1, 0.05, "1 = full size"));
+    box.appendChild(r2);
+    box.appendChild(selectRow(a, "easing", "Easing (movement style)", EASINGS));
+    box.appendChild(checkRow(a, "replay", "Play again each time it scrolls back into view"));
+    var prev = el("button", "btn small", "Preview this animation");
+    prev.type = "button";
+    prev.addEventListener("click", function () { sendPreview(); });
+    box.appendChild(prev);
+    return box;
   }
 
   function mediaField(obj, key, kind) {
@@ -352,25 +415,26 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
     if (kind === "video") { pv.muted = true; pv.preload = "metadata"; }
     var cur = obj[key] || "";
     var shown = blobs[cur] || cur;
-    if (shown) pv.src = shown; else pv.style.display = "none";
+    if (shown && shown.indexOf("http") !== 0 || shown.indexOf("blob:") === 0 || shown.indexOf("data:") === 0) pv.src = shown; else pv.style.display = "none";
     var mi = el("div", "mi");
-    var txt = el("input"); txt.type = "text"; txt.placeholder = kind === "image" ? "इमेज का path या लिंक" : "वीडियो का path या लिंक";
-    txt.value = cur.indexOf("data:") === 0 ? "(अपलोड की गई इमेज)" : cur; txt.readOnly = cur.indexOf("data:") === 0;
+    var txt = el("input"); txt.type = "text";
+    txt.placeholder = kind === "image" ? "Image path or link" : "Video link (YouTube, Instagram, Google Drive) or file path";
+    txt.value = cur.indexOf("data:") === 0 ? "(uploaded image)" : cur; txt.readOnly = cur.indexOf("data:") === 0;
     txt.addEventListener("change", function () { obj[key] = txt.value.trim(); changed(); });
     mi.appendChild(txt);
     var btns = el("div", "mbtns");
-    var pick = el("button", "btn small", kind === "image" ? "इमेज चुनें / अपलोड करें" : "वीडियो चुनें / अपलोड करें");
+    var pick = el("button", "btn small", kind === "image" ? "Choose / upload image" : "Choose / upload video");
     pick.type = "button";
     var fi = el("input"); fi.type = "file"; fi.accept = kind === "image" ? "image/*" : "video/*"; fi.style.display = "none";
     pick.addEventListener("click", function () { fi.click(); });
     fi.addEventListener("change", function () {
       var f = fi.files[0]; if (!f) return;
-      status("अपलोड हो रहा है… कृपया रुकें", "");
+      status("Uploading... please wait.", "");
       upload(f, kind).then(function (p) {
-        if (p) { obj[key] = p; status("अपलोड हो गया।", "ok"); changed(); }
-      }).catch(function (e) { status(e.message || "अपलोड नहीं हुआ", "err"); });
+        if (p) { obj[key] = p; status("Upload complete.", "ok"); changed(); }
+      }).catch(function (e) { status(e.message || "Upload failed.", "err"); });
     });
-    var rm = el("button", "btn small danger", "हटाएँ"); rm.type = "button";
+    var rm = el("button", "btn small danger", "Remove"); rm.type = "button";
     rm.addEventListener("click", function () { obj[key] = ""; changed(); });
     btns.appendChild(pick); btns.appendChild(rm); btns.appendChild(fi);
     box.appendChild(pv); box.appendChild(mi); box.appendChild(btns);
@@ -379,25 +443,25 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
 
   function itemsEditor(s) {
     var wrap = el("div");
-    wrap.appendChild(el("div", "grp", "आइटम (" + s.items.length + ")"));
-    var def = TYPES[s.type].items;
+    wrap.appendChild(el("div", "grp", "Items (" + s.items.length + ")"));
+    TYPES[s.type].items.forEach(function () {});
     s.items.forEach(function (it, i) {
       var card = el("div", "item");
       var head = el("div", "ih", "<span>#" + (i + 1) + "</span>");
       var tools = el("div");
-      [["↑", "ऊपर", function () { if (i > 0) { var t = s.items[i]; s.items[i] = s.items[i - 1]; s.items[i - 1] = t; changed(); } }],
-       ["↓", "नीचे", function () { if (i < s.items.length - 1) { var t = s.items[i]; s.items[i] = s.items[i + 1]; s.items[i + 1] = t; changed(); } }],
-       ["हटाएँ", "हटाएँ", function () { if (confirm("यह आइटम हटाएँ?")) { s.items.splice(i, 1); changed(); } }]
+      [["↑", "Move up", function () { if (i > 0) { var t = s.items[i]; s.items[i] = s.items[i - 1]; s.items[i - 1] = t; changed(); } }],
+       ["↓", "Move down", function () { if (i < s.items.length - 1) { var t = s.items[i]; s.items[i] = s.items[i + 1]; s.items[i + 1] = t; changed(); } }],
+       ["Remove", "Remove item", function () { if (confirm("Remove this item?")) { s.items.splice(i, 1); changed(); } }]
       ].forEach(function (b) {
-        var bt = el("button", "btn small" + (b[0] === "हटाएँ" ? " danger" : ""), b[0]); bt.type = "button"; bt.title = b[1];
+        var bt = el("button", "btn small" + (b[0] === "Remove" ? " danger" : ""), b[0]); bt.type = "button"; bt.title = b[1];
         bt.addEventListener("click", b[2]); tools.appendChild(bt);
       });
       head.appendChild(tools);
       card.appendChild(head);
-      def.forEach(function (d) { card.appendChild(fieldRow(it, d[0], d[2], d[1])); });
+      TYPES[s.type].items.forEach(function (d) { card.appendChild(fieldRow(it, d[0], d[2], d[1])); });
       wrap.appendChild(card);
     });
-    var add = el("button", "btn dash", "+ नया आइटम जोड़ें"); add.type = "button";
+    var add = el("button", "btn dash", "+ Add item"); add.type = "button";
     add.addEventListener("click", function () { s.items.push(makeItem(s.type)); changed(); });
     wrap.appendChild(add);
     return wrap;
@@ -406,22 +470,21 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
   function renderEditor() {
     var box = $("editor"); box.innerHTML = "";
     if (sel < 0 || !C.sections[sel]) {
-      box.appendChild(el("div", "empty", "ऊपर से कोई सेक्शन चुनें, उसे यहाँ एडिट कर सकेंगे।"));
+      box.appendChild(el("div", "empty", "Select a section above to edit it here."));
       return;
     }
     var s = C.sections[sel], t = TYPES[s.type];
-    box.appendChild(el("div", "grp", esc(t.name) + " को एडिट करें"));
+    box.appendChild(el("div", "grp", "Edit: " + esc(t.name)));
     box.appendChild(el("p", "hint", esc(t.desc)));
-    box.appendChild(selectRow(s, "animation", "एनिमेशन (कैसे दिखे)", ANIMS));
-    box.appendChild(selectRow(s, "bg", "बैकग्राउंड", [["default", "सामान्य"], ["alt", "दूसरा रंग (अलग दिखे)"]]));
     t.fields.forEach(function (k) { box.appendChild(fieldRow(s, k, KIND[k] || "text", FL[k] || k)); });
-    if (t.items) { box.appendChild(itemsEditor(s)); }
-    var del = el("button", "btn danger", "इस सेक्शन को हटाएँ"); del.type = "button"; del.style.marginTop = "10px";
-    del.addEventListener("click", function () { if (confirm("यह सेक्शन पूरी तरह हटाएँ?")) { C.sections.splice(sel, 1); sel = -1; changed(); } });
+    if (t.items) box.appendChild(itemsEditor(s));
+    box.appendChild(animationPanel(s));
+    var del = el("button", "btn danger", "Delete this section"); del.type = "button"; del.style.marginTop = "10px";
+    del.addEventListener("click", function () { if (confirm("Delete this section completely?")) { C.sections.splice(sel, 1); sel = -1; changed(); } });
     box.appendChild(del);
   }
 
-  /* ---------- Look tab ---------- */
+  /* ---------- Design tab ---------- */
   function renderLook() {
     var t = C.theme;
     var colors = $("colors"); colors.innerHTML = "";
@@ -431,31 +494,40 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
       inp.addEventListener("input", function () { t[c[0]] = inp.value; touched(); });
       w.appendChild(inp); colors.appendChild(w);
     });
-    var r = $("radius"); r.value = (t.radius == null ? 22 : t.radius);
-    r.oninput = function () { t.radius = Number(r.value); touched(); };
-    fillFonts($("font"), t.font || "system", "system");
-    fillFonts($("hfont"), t.headingFont || "", "");
+    var r = $("radius"); r.value = t.radius; $("rVal").textContent = t.radius;
+    r.oninput = function () { t.radius = Number(r.value); $("rVal").textContent = t.radius; touched(); };
+    var sp = $("sp"); sp.value = t.sectionSpacing; $("spVal").textContent = t.sectionSpacing;
+    sp.oninput = function () { t.sectionSpacing = Number(sp.value); $("spVal").textContent = t.sectionSpacing; touched(); };
+    var hs = $("hs"); hs.value = t.headingScale; $("hsVal").textContent = Number(t.headingScale).toFixed(2);
+    hs.oninput = function () { t.headingScale = Number(hs.value); $("hsVal").textContent = Number(t.headingScale).toFixed(2); touched(); };
+    fillSelect($("font"), FONTS.map(function (f) { return [f, f === "system" ? "System default" : f]; }), t.font);
+    fillSelect($("hfont"), [["", "Same as body font"]].concat(FONTS.map(function (f) { return [f, f === "system" ? "System default" : f]; })), t.headingFont);
     $("font").onchange = function () { t.font = $("font").value; touched(); };
     $("hfont").onchange = function () { t.headingFont = $("hfont").value; touched(); };
+    fillSelect($("shadow"), [["none", "None"], ["soft", "Soft"], ["strong", "Strong"]], t.shadow);
+    $("shadow").onchange = function () { t.shadow = $("shadow").value; touched(); };
+    fillSelect($("btnStyle"), [["pill", "Pill (fully rounded)"], ["rounded", "Rounded"], ["square", "Square"]], t.buttonStyle);
+    $("btnStyle").onchange = function () { t.buttonStyle = $("btnStyle").value; touched(); };
     $("fontPath").value = t.fontFile || "";
     $("customCss").value = t.customCss || "";
     $("customCss").oninput = function () { t.customCss = $("customCss").value; touched(); };
   }
-  function fillFonts(sl, cur, blankLabel) {
+  function fillSelect(sl, opts, cur) {
     sl.innerHTML = "";
-    var list = FONTS.slice();
-    if (blankLabel === "") list.unshift("");
-    list.forEach(function (f) {
-      var op = el("option", "", esc(f === "" ? "साइट के मुख्य फ़ॉन्ट जैसा" : f === "system" ? "सिस्टम फ़ॉन्ट (डिफ़ॉल्ट)" : f));
-      op.value = f; if (f === cur) op.selected = true; sl.appendChild(op);
-    });
+    opts.forEach(function (o) { var op = el("option", "", esc(o[1])); op.value = o[0]; if (String(cur) === o[0]) op.selected = true; sl.appendChild(op); });
   }
   function applyPreset(name) {
     var p = PRESETS[name]; Object.keys(p).forEach(function (k) { C.theme[k] = p[k]; });
     changed(); renderLook();
   }
+  function resetTheme() {
+    if (!confirm("Reset all design settings to the default look? Your sections and content are not changed.")) return;
+    C.theme = themeOf({});
+    changed(); renderLook();
+    status("Design reset to default.", "ok");
+  }
 
-  /* ---------- Settings tab ---------- */
+  /* ---------- Setup tab ---------- */
   function renderSettings() {
     var c = cfgDefaults();
     $("cOwner").value = c.owner; $("cRepo").value = c.repo; $("cBranch").value = c.branch; $("cToken").value = c.token;
@@ -463,27 +535,27 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
   function saveSettings() {
     var c = { owner: $("cOwner").value.trim(), repo: $("cRepo").value.trim(), branch: $("cBranch").value.trim() || "main", token: $("cToken").value.trim() };
     localStorage.setItem(CFG_KEY, JSON.stringify(c));
-    status("सेटिंग सेव हो गई।", "ok");
+    status("Settings saved.", "ok");
   }
   function testConn() {
     var c = cfgDefaults();
     fetch("https://api.github.com/repos/" + encodeURIComponent(c.owner) + "/" + encodeURIComponent(c.repo), { headers: ghHeaders() })
-      .then(function (r) { if (!r.ok) throw new Error("रिपॉज़िटरी नहीं मिली (" + r.status + ")"); return r.json(); })
+      .then(function (r) { if (!r.ok) throw new Error("Repository not found (error " + r.status + ")."); return r.json(); })
       .then(function (j) {
         var can = j.permissions && j.permissions.push;
-        status(can ? "कनेक्शन सही है और लिखने की अनुमति है।" : "कनेक्शन हुआ, पर लिखने की अनुमति नहीं दिखती। Token में Contents: Read and write जाँचें।", can ? "ok" : "err");
+        status(can ? "Connection OK. Write access is allowed." : "Connected, but write access was not detected. Check that the token has Contents: Read and write.", can ? "ok" : "err");
       })
       .catch(function (e) { status(e.message, "err"); });
   }
 
-  /* ---------- GitHub upload ---------- */
+  /* ---------- GitHub ---------- */
   function ghHeaders() { var c = cfgDefaults(); var h = { Accept: "application/vnd.github+json" }; if (c.token) h.Authorization = "Bearer " + c.token; return h; }
   function ghUrl(path) {
     var c = cfgDefaults();
     return "https://api.github.com/repos/" + encodeURIComponent(c.owner) + "/" + encodeURIComponent(c.repo) + "/contents/" + path.split("/").map(encodeURIComponent).join("/");
   }
   function errText(r) {
-    return r.json().then(function (j) { return (r.status === 401 ? "Token गलत है। " : "") + (j.message || "GitHub error " + r.status); }, function () { return "GitHub error " + r.status; });
+    return r.json().then(function (j) { return (r.status === 401 ? "Token is invalid. " : "") + (j.message || "GitHub error " + r.status); }, function () { return "GitHub error " + r.status; });
   }
   function ghPut(path, b64, msg) {
     requireToken();
@@ -503,12 +575,8 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
     for (var i = 0; i < bytes.length; i += 8192) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
     return btoa(s);
   }
-  function blobToB64(blob) {
-    return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result.split(",")[1]); }; r.onerror = rej; r.readAsDataURL(blob); });
-  }
-  function blobToDataUrl(blob) {
-    return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = rej; r.readAsDataURL(blob); });
-  }
+  function blobToB64(blob) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result.split(",")[1]); }; r.onerror = rej; r.readAsDataURL(blob); }); }
+  function blobToDataUrl(blob) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = rej; r.readAsDataURL(blob); }); }
   function resizeImage(file, max) {
     return new Promise(function (res, rej) {
       var u = URL.createObjectURL(file), im = new Image();
@@ -518,9 +586,9 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
         c.width = Math.round(im.width * s); c.height = Math.round(im.height * s);
         c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
         URL.revokeObjectURL(u);
-        c.toBlob(function (b) { b ? res(b) : rej(new Error("इमेज प्रोसेस नहीं हुई")); }, "image/jpeg", 0.86);
+        c.toBlob(function (b) { b ? res(b) : rej(new Error("Could not process this image.")); }, "image/jpeg", 0.86);
       };
-      im.onerror = function () { URL.revokeObjectURL(u); rej(new Error("यह इमेज नहीं खुली")); };
+      im.onerror = function () { URL.revokeObjectURL(u); rej(new Error("This image could not be opened.")); };
       im.src = u;
     });
   }
@@ -533,7 +601,7 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
       return resizeImage(file, 1600).then(function (blob) {
         if (!cfgDefaults().token) {
           return blobToDataUrl(blob).then(function (d) {
-            if (d.length > 600000) status("इमेज बड़ी है। GitHub सेटिंग करके अपलोड करें ताकि फ़ाइल हल्की रहे।", "err");
+            if (d.length > 600000) status("This image is large. Set up GitHub publishing so it is stored as a file.", "err");
             return d;
           });
         }
@@ -543,7 +611,7 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
         });
       });
     }
-    if (file.size > 50 * 1024 * 1024) return Promise.reject(new Error("वीडियो 50 MB से छोटा होना चाहिए। फ़ोन पर छोटा करके डालें।"));
+    if (file.size > 50 * 1024 * 1024) return Promise.reject(new Error("Video must be under 50 MB. Compress it on your phone first."));
     requireToken();
     var ext = (file.name.split(".").pop() || "bin").toLowerCase();
     var p2 = newPath(file.name, ext);
@@ -553,16 +621,16 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
   }
   function publish() {
     try { requireToken(); } catch (e) { status(e.message, "err"); showTab("setup"); return; }
-    status("लाइव किया जा रहा है…", "");
+    status("Publishing...", "");
     ghPut("content.json", b64utf8(JSON.stringify(C, null, 2)), "Update site from admin").then(function () {
-      status("सेव हो गया। 1–2 मिनट में असली साइट पर दिख जाएगा।", "ok");
+      status("Saved. The public site will update in about 1–2 minutes.", "ok");
     }).catch(function (e) { status(e.message, "err"); });
   }
   function download() {
     var blob = new Blob([JSON.stringify(C, null, 2)], { type: "application/json" });
     var a = el("a"); a.href = URL.createObjectURL(blob); a.download = "content.json";
     document.body.appendChild(a); a.click(); a.remove();
-    status("content.json डाउनलोड हो गई। इसे GitHub पर अपलोड कर सकते हैं।", "ok");
+    status("content.json downloaded. You can upload it to GitHub manually.", "ok");
   }
 
   /* ---------- Preview ---------- */
@@ -591,7 +659,7 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
     $("sheet").classList.add("open");
   }
 
-  /* ---------- Tabs & toggles ---------- */
+  /* ---------- Tabs and wiring ---------- */
   function showTab(name) {
     document.querySelectorAll(".tab").forEach(function (b) { b.classList.toggle("on", b.dataset.tab === name); });
     $("tab-sections").hidden = name !== "sections";
@@ -600,48 +668,52 @@ code{background:#f0f1f4;padding:1px 6px;border-radius:6px;font-size:13px}
     if (name === "look") renderLook();
     if (name === "setup") renderSettings();
   }
-
-  /* ---------- Wire events ---------- */
   document.querySelectorAll(".tab").forEach(function (b) { b.addEventListener("click", function () { showTab(b.dataset.tab); }); });
   document.querySelectorAll("[data-preset]").forEach(function (b) { b.addEventListener("click", function () { applyPreset(b.dataset.preset); }); });
   $("btnAdd").addEventListener("click", openSheet);
   $("sheetClose").addEventListener("click", function () { $("sheet").classList.remove("open"); });
   $("sheet").addEventListener("click", function (e) { if (e.target === $("sheet")) $("sheet").classList.remove("open"); });
-  $("btnPrev").addEventListener("click", function () { $("prevWrap").classList.toggle("on"); $("btnPrev").textContent = $("prevWrap").classList.contains("on") ? "पूर्वावलोकन छिपाएँ" : "पूर्वावलोकन दिखाएँ"; });
+  $("btnPrev").addEventListener("click", function () {
+    $("prevWrap").classList.toggle("on");
+    $("btnPrev").textContent = $("prevWrap").classList.contains("on") ? "Hide preview" : "Show preview";
+  });
   $("btnDl").addEventListener("click", download);
   $("btnPub").addEventListener("click", publish);
   $("cSave").addEventListener("click", saveSettings);
   $("cTest").addEventListener("click", function () { saveSettings(); testConn(); });
+  $("resetTheme").addEventListener("click", resetTheme);
   $("fontPick").addEventListener("click", function () {
     var fi = el("input"); fi.type = "file"; fi.accept = ".woff2,.woff,.ttf,.otf";
     fi.addEventListener("change", function () {
       var f = fi.files[0]; if (!f) return;
-      status("फ़ॉन्ट अपलोड हो रहा है…", "");
-      upload(f, "font").then(function (p) { C.theme.fontFile = p; $("fontPath").value = p; status("फ़ॉन्ट लग गया।", "ok"); changed(); })
+      status("Uploading font...", "");
+      uploadFont(f).then(function (p) { C.theme.fontFile = p; $("fontPath").value = p; status("Font uploaded.", "ok"); changed(); })
         .catch(function (e) { status(e.message, "err"); });
     });
     fi.click();
   });
   $("fontClear").addEventListener("click", function () { C.theme.fontFile = ""; $("fontPath").value = ""; changed(); });
 
-  /* Font upload uses the same GitHub path as video (kind "font" is treated as media). */
-  var origUpload = upload;
-  upload = function (file, kind) { return kind === "font" ? (function () { requireToken(); var p = newPath(file.name, (file.name.split(".").pop() || "woff2").toLowerCase()); return blobToB64(file).then(function (b64) { return ghPut(p, b64, "Upload font"); }).then(function () { blobs[p] = URL.createObjectURL(file); return p; }); })() : origUpload(file, kind); };
+  function uploadFont(file) {
+    requireToken();
+    var p = newPath(file.name, (file.name.split(".").pop() || "woff2").toLowerCase());
+    return blobToB64(file).then(function (b64) { return ghPut(p, b64, "Upload font"); }).then(function () { blobs[p] = URL.createObjectURL(file); return p; });
+  }
 
   /* ---------- Start ---------- */
   function start() {
     var draft = null; try { draft = localStorage.getItem(DRAFT_KEY); } catch (e) {}
-    if (draft && confirm("पिछला अधूरा काम मिला। उसे लोड करें? (रद्द करने पर साइट का मौजूदा content लोड होगा)")) {
+    if (draft && confirm("Unsaved work from earlier was found. Load it? (Cancel loads the current live content.)")) {
       try { C = normalize(JSON.parse(draft)); } catch (e) { C = null; }
     }
     var ready = C ? Promise.resolve() : fetch("content.json?v=" + Date.now(), { cache: "no-store" })
       .then(function (r) { if (!r.ok) throw new Error("nf"); return r.json(); })
       .then(function (j) { C = normalize(j); })
-      .catch(function () { C = normalize({}); status("content.json नहीं मिली। फ़ाइल सही जगह पर है या नहीं, जाँचें।", "err"); });
+      .catch(function () { C = normalize({}); status("content.json was not found. Check that it is in the same folder as admin.html.", "err"); });
     ready.then(function () {
       renderSections(); renderEditor(); renderLook(); renderSettings();
       sendPreview();
-      if (!draft) status("साइट का मौजूदा content लोड हुआ। बदलाव करें और 'लाइव करें' दबाएँ।", "ok");
+      if (!draft) status("Loaded the current live content. Make your changes, then tap 'Publish live'.", "ok");
     });
   }
   start();
